@@ -1,6 +1,7 @@
 const Category = require("../models/categoryModel")
 const slugify = require('slugify')
 const asyncHandler = require('express-async-handler')
+const CustomError = require("../utils/CustomError")
 
 /**
  * @desc create category
@@ -37,9 +38,11 @@ module.exports.getCategories = asyncHandler(async (req, res) => {
 module.exports.getCategory = asyncHandler(async (req, res) => {
     const {id} = req.params
     const category = await Category.findById(id)
+
     if(!category) {
-        res.status(404).json({message: `No category for this id: ${id}`})
+        throw new CustomError(`No category for this id: ${id}`, 404)
     }
+
     res.status(200).json({data: category})
 })
 
@@ -60,7 +63,7 @@ module.exports.updateCategory = asyncHandler(async (req, res) => {
     })
 
     if(!category) {
-        res.status(404).json({message: `No category for this id: ${id}`})
+        throw new CustomError(`No category for this id: ${id}`, 404)
     }
     
     res.status(200).json({data: category})
@@ -77,7 +80,7 @@ module.exports.deleteCategory = asyncHandler(async (req, res) => {
     const category = await Category.findByIdAndDelete(id)
 
     if(!category) {
-        res.status(404).json({message: `No category for this id: ${id}`})
+        throw new CustomError(`No category for this id: ${id}`, 404)
     }
 
     res.status(204).json()
