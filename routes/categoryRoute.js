@@ -1,17 +1,20 @@
-const express =require('express')
-const router = express.Router()
-const categoryController = require('../controllers/categoryController')
-const validateMongoId = require('../utils/validators/validateMongoId')
-const validateCategoryName = require('../utils/validators/validateCategoryName')
+const express = require("express");
 
-router.route('/')
-.post(validateCategoryName, categoryController.createCategory)
-.get(categoryController.getCategories)
+const router = express.Router();
+const categoryController = require("../controllers/categoryController");
+const validateMongoId = require("../utils/validators/validateMongoId");
+const validateCategoryName = require("../utils/validators/validateCategoryName");
 
-router.route('/:id')
-.all(validateMongoId)
-.get(categoryController.getCategory)
-.put(validateCategoryName, categoryController.updateCategory)
-.delete(categoryController.deleteCategory)
+router
+  .route("/")
+  .post(validateCategoryName, categoryController.createCategory)
+  .get(categoryController.getCategories);
 
-module.exports = router
+router
+  .route("/:id")
+  .all(validateMongoId)
+  .get(categoryController.getCategory)
+  .put(validateCategoryName, categoryController.updateCategory)
+  .delete(categoryController.deleteCategory);
+
+module.exports = router;

@@ -1,7 +1,7 @@
-const Category = require("../models/categoryModel")
-const slugify = require('slugify')
-const asyncHandler = require('express-async-handler')
-const CustomError = require("../utils/CustomError")
+const slugify = require("slugify");
+const asyncHandler = require("express-async-handler");
+const Category = require("../models/categoryModel");
+const CustomError = require("../utils/CustomError");
 
 /**
  * @desc create category
@@ -10,10 +10,10 @@ const CustomError = require("../utils/CustomError")
  * @access private
  */
 module.exports.createCategory = asyncHandler(async (req, res) => {
-    const {name} = req.body
-    const category = await Category.create({name, slug: slugify(name)})
-    res.status(201).json({data: category})  
-})
+  const { name } = req.body;
+  const category = await Category.create({ name, slug: slugify(name) });
+  res.status(201).json({ data: category });
+});
 
 /**
  * @desc Get all categories
@@ -22,12 +22,12 @@ module.exports.createCategory = asyncHandler(async (req, res) => {
  * @access public
  */
 module.exports.getCategories = asyncHandler(async (req, res) => {
-    const page = +req.query.page || 1
-    const limit = +req.query.limit || 5
-    const skip = (page - 1) * limit
-    const categories = await Category.find({}).skip(skip).limit(limit)
-    res.status(200).json({results: categories.length, page, data: categories})
-})
+  const page = +req.query.page || 1;
+  const limit = +req.query.limit || 5;
+  const skip = (page - 1) * limit;
+  const categories = await Category.find({}).skip(skip).limit(limit);
+  res.status(200).json({ results: categories.length, page, data: categories });
+});
 
 /**
  * @desc Get a specific category by id
@@ -36,15 +36,15 @@ module.exports.getCategories = asyncHandler(async (req, res) => {
  * @access public
  */
 module.exports.getCategory = asyncHandler(async (req, res) => {
-    const {id} = req.params
-    const category = await Category.findById(id)
+  const { id } = req.params;
+  const category = await Category.findById(id);
 
-    if(!category) {
-        throw new CustomError(`No category for this id: ${id}`, 404)
-    }
+  if (!category) {
+    throw new CustomError(`No category for this id: ${id}`, 404);
+  }
 
-    res.status(200).json({data: category})
-})
+  res.status(200).json({ data: category });
+});
 
 /**
  * @desc Update a specific category by id
@@ -53,21 +53,25 @@ module.exports.getCategory = asyncHandler(async (req, res) => {
  * @access private
  */
 module.exports.updateCategory = asyncHandler(async (req, res) => {
-    const {id} = req.params
-    const {name} = req.body 
-    const category = await Category.findByIdAndUpdate(id,{
-        name,
-        slug: slugify(name)
-    }, {
-        new: true
-    })
-
-    if(!category) {
-        throw new CustomError(`No category for this id: ${id}`, 404)
+  const { id } = req.params;
+  const { name } = req.body;
+  const category = await Category.findByIdAndUpdate(
+    id,
+    {
+      name,
+      slug: slugify(name),
+    },
+    {
+      new: true,
     }
-    
-    res.status(200).json({data: category})
-})
+  );
+
+  if (!category) {
+    throw new CustomError(`No category for this id: ${id}`, 404);
+  }
+
+  res.status(200).json({ data: category });
+});
 
 /**
  * @desc Delete a specific category by id
@@ -76,12 +80,12 @@ module.exports.updateCategory = asyncHandler(async (req, res) => {
  * @access private
  */
 module.exports.deleteCategory = asyncHandler(async (req, res) => {
-    const {id} = req.params 
-    const category = await Category.findByIdAndDelete(id)
+  const { id } = req.params;
+  const category = await Category.findByIdAndDelete(id);
 
-    if(!category) {
-        throw new CustomError(`No category for this id: ${id}`, 404)
-    }
+  if (!category) {
+    throw new CustomError(`No category for this id: ${id}`, 404);
+  }
 
-    res.status(204).json()
-})
+  res.status(204).json();
+});
