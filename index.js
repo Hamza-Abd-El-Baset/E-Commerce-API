@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
   res.send("Main Page");
 });
 app.use("/api/v1/categories", require("./routes/categoryRoute"));
+app.use("/api/v1/sub-categories", require("./routes/subCategoryRoute"));
 
 // Handling Undefined Routes
 app.all("*", (req, res, next) => {

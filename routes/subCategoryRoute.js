@@ -1,10 +1,19 @@
-const express = require('express')
+const express = require("express");
 
-const router = express.Router()
-const subCategoryController = require('../controllers/subCategoryController')
-const validateSubCategoryName = require('../utils/validators/validateSubCategoryName')
+const router = express.Router();
+const subCategoryController = require("../controllers/subCategoryController");
+const validateSubCategory = require("../utils/validators/validateSubCategory");
+const validateMongoId = require("../utils/validators/validateMongoId");
 
-router.route('/')
-.post(validateSubCategoryName, subCategoryController.createSubCategory)
+router
+  .route("/")
+  .post(validateSubCategory, subCategoryController.createSubCategory)
+  .get(subCategoryController.getSubCategories);
 
-module.exports = router
+router.route('/:id')
+.all(validateMongoId)
+.get(subCategoryController.getSubCategory)
+.put(subCategoryController.updateSubCategory)
+.delete(subCategoryController.deleteSubCategory)
+
+module.exports = router;
