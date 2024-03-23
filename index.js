@@ -21,6 +21,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/v1/categories", require("./routes/categoryRoute"));
 app.use("/api/v1/sub-categories", require("./routes/subCategoryRoute"));
+app.use("/api/v1/brands", require("./routes/brandRoute"));
 
 // Handling Undefined Routes
 app.all("*", (req, res, next) => {

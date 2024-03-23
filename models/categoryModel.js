@@ -4,9 +4,9 @@ const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Category is required"],
-      unique: [true, "Category must be unique"],
-      minlength: [3, "cz"],
+      required: [true, "Category name is required"],
+      unique: [true, "Category name must be unique"],
+      minlength: [3, "Too short category name"],
       maxlength: [32, "Too long category name"],
     },
     slug: {
@@ -28,6 +28,4 @@ categorySchema.virtual("sub-categories", {
     localField: "_id"
 })
 
-const Category = mongoose.model("Category", categorySchema);
-
-module.exports = Category;
+module.exports = mongoose.model("Category", categorySchema);
