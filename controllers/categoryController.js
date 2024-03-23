@@ -25,7 +25,7 @@ module.exports.getCategories = asyncHandler(async (req, res) => {
   const page = +req.query.page || 1;
   const limit = +req.query.limit || 5;
   const skip = (page - 1) * limit;
-  const categories = await Category.find({}).skip(skip).limit(limit);
+  const categories = await Category.find({}).skip(skip).limit(limit).populate("sub-categories");
   res.status(200).json({ results: categories.length, page, data: categories });
 });
 
@@ -37,7 +37,7 @@ module.exports.getCategories = asyncHandler(async (req, res) => {
  */
 module.exports.getCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const category = await Category.findById(id);
+  const category = await Category.findById(id).populate("sub-categories");
 
   if (!category) {
     throw new CustomError(`No category for this id: ${id}`, 404);

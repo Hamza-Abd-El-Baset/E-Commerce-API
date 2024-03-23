@@ -17,4 +17,6 @@ router
   .put(validateCategory, categoryController.updateCategory)
   .delete(categoryController.deleteCategory);
 
+router.use('/:categoryId/sub-categories', require("./subCategoryRoute"))
+
 module.exports = router;

@@ -1,13 +1,13 @@
 const express = require("express");
 
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const subCategoryController = require("../controllers/subCategoryController");
 const validateSubCategory = require("../utils/validators/validateSubCategory");
 const validateMongoId = require("../utils/validators/validateMongoId");
 
 router
   .route("/")
-  .post(validateSubCategory, subCategoryController.createSubCategory)
+  .post(subCategoryController.addCategoryId ,validateSubCategory, subCategoryController.createSubCategory)
   .get(subCategoryController.getSubCategories);
 
 router.route('/:id')
